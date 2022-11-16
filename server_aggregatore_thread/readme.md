@@ -26,7 +26,7 @@ iterazioni, ed inviando altrettanti messaggi ai collettori. A loro
 volta, i collettori faranno 10 ricezioni, stampando a video i valori
 ricevuti, per poi terminare.
 
-![image](/images/ambiente_locale/server_multithread/server_aggregatore_thread.png)
+![image](https://github.com/rnatella/esercizi_linux/blob/master/images/ambiente_locale/server_multithread/server_aggregatore_thread.png)
 
 File da completare:
 - aggregatore.h
