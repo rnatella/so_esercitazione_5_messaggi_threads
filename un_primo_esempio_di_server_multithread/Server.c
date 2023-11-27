@@ -9,7 +9,13 @@
 
 /* Il thread padre condivide l'id della coda 
    delle risposte con i figli, tramite una 
-   variabile globale */
+   variabile globale "id_coda_risposte".
+ */
+
+/* NOTA: la coda delle risposte deve essere utilizzata
+		 in modo mutuamente esclusivo dai thread
+		 (vedi commento più avanti).
+ */
 
 int id_coda_risposte;
 
@@ -62,8 +68,12 @@ void* Prodotto(void* v){
 
 
 	/* TBD: Inviare il messaggio di risposta al client.
-	        Si chiami la funzione msgsnd() all'interno di una
-			sezione critica.
+	        
+	   IMPORTANTE: In questo esercizio, si richiede che 
+	   			   la coda delle risposte sia utilizzata
+				   in modo mutuamente esclusivo dai thread
+	   			   (la funzione msgsnd() deve essere chiamata
+				   all'interno di una sezione critica).
 	 */
 
 	printf("\nSono Prodotto di Server. Invio del calcolo: %d\n\n", v3);  

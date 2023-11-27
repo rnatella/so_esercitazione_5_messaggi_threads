@@ -14,8 +14,9 @@ void aggregatore(int id_coda_sensore, int id_code_collettori[3]) {
 
     /* TBD: Completare questa funzione, avviando un thread scrittore e 3 thread lettori *
      *
-     *      Nota: occorre passare ai thread sia il puntatore ad un oggetto-monitor,
-     *      sia l'identificativo della coda di messaggi su cui ricevere/inviare.
+     * IMPORTANTE: Occorre passare ai thread sia il puntatore ad un oggetto-monitor,
+     *             sia l'identificativo della coda di messaggi su cui ricevere/inviare.
+     *             Si definisca una struct per il passaggio dei parametri.
      */
 
 }
