@@ -1,7 +1,7 @@
 rules:
   - id: mutex_initialization
     languages: [c]
-    severity: ERROR 
+    severity: ERROR
     message: "È richiesto che il mutex sia definito e inizializzato fuori dal ciclo while(1){...} del server. Si suggerisce di dichiarare una variabile globale di tipo pthread_mutex_t, e di inizializzarla subito prima del ciclo tramite pthread_mutex_init()."
     patterns:
       - pattern: |
@@ -18,6 +18,8 @@ rules:
             }
             ...
           }
+      - pattern-not: |
+          void server(...);
 
   - id: server_join
     languages: [c]
@@ -27,7 +29,7 @@ rules:
 
   - id: thread_parameters
     languages: [c]
-    severity: ERROR 
+    severity: ERROR
     message: "Per il passaggio di parametri dal thread principale ai thread worker, è necessario definire una struttura dati per contenere i valori dei parametri; poi, ogni volta che viene creato un thread worker (ossia all'interno del ciclo while), occorre allocare sullo heap una istanza della struttura, e passarla al thread worker tramite pthread_create()."
     patterns:
       - pattern: |
@@ -39,7 +41,7 @@ rules:
 
   - id: no_free_parameters
     languages: [c]
-    severity: ERROR 
+    severity: ERROR
     message: "È richiesto che la struttura dati con i parametri del thread worker venga deallocata dallo heap, utilizzando free()."
     patterns:
       - pattern: |
@@ -74,15 +76,15 @@ rules:
             ...
             free(...);
             ...
-          }  
+          }
           $VOID Prodotto(...){
             ...
           }
 
-        
+
   - id: free_parameters_worker
     languages: [c]
-    severity: ERROR 
+    severity: ERROR
     message: "La deallocazione deve essere fatta al termine del thread worker. Non è corretto fare la deallocazione nel thread principale, poiché non è previsto che il thread principale attenda la terminazione dei thread worker (non ha modo di conoscere quando il thread worker avrà finito di utilizzare l'area di memoria dinamica)."
     patterns:
       - pattern: |
@@ -96,7 +98,7 @@ rules:
 
   - id: critical_section
     languages: [c]
-    severity: ERROR 
+    severity: ERROR
     message: "In questo esercizio, si richiede che la coda delle risposte sia utilizzata in modo mutuamente esclusivo dai thread (la funzione msgsnd() deve essere chiamata all'interno di una sezione critica)."
     patterns:
       - pattern: msgsnd(...);
@@ -109,7 +111,7 @@ rules:
 
   - id: unlock-before-exit
     languages: [c]
-    severity: ERROR 
+    severity: ERROR
     message: "È necessario che pthread_mutex_unlock() sia chiamata PRIMA di pthread_exit(). Altrimenti, il thread termina senza rilasciare il mutex, bloccando i futuri accessi da parte degli altri thread."
     patterns:
       - pattern: pthread_mutex_unlock(...);
@@ -120,13 +122,13 @@ rules:
 
   - id: no-var-condition
     languages: [c]
-    severity: ERROR 
+    severity: ERROR
     message: "In questo esercizio, NON bisogna utilizzare nessuna variabile condition. L'esercizio richiede solamente la mutua esclusione."
     pattern: pthread_cond_t $CV;
 
   - id: no-mutex-in-msg
     languages: [c]
-    severity: ERROR 
+    severity: ERROR
     message: "NON è corretto dichiarare un mutex all'interno della struttura dati per i messaggi. Nel programma vi deve essere un unico mutex, che sarà condiviso da tutti i thread. Se si inserisse il mutex nel messaggio, verrebbe creato un mutex diverso per ogni messaggio."
     pattern: |
       pthread_mutex_init(<... $MSG ...>, ...);
