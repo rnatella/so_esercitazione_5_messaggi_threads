@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ipcclean() {
-    ipcs -q | awk '($$2~/^[0-9]+$$/) { system("ipcrm -q " $$2) }'
-    ipcs -m | awk '($$2~/^[0-9]+$$/) { system("ipcrm -m " $$2) }'
-    ipcs -s | awk '($$2~/^[0-9]+$$/) { system("ipcrm -s " $$2) }'
+    ipcs -q | awk '($2~/^[0-9]+$/) { system("ipcrm -q " $2) }'
+    ipcs -m | awk '($2~/^[0-9]+$/) { system("ipcrm -m " $2) }'
+    ipcs -s | awk '($2~/^[0-9]+$/) { system("ipcrm -s " $2) }'
 }
 
 failure() {
@@ -183,8 +183,25 @@ function init_feedback() {
 }
 
 
+function colorize() {
+
+    OUTPUT=$1
+    OUTPUT_COLOR_ANSI=$2
+    OUTPUT_COLOR_HTML=$3
+
+    echo "<br/><pre>" > ${OUTPUT_COLOR_HTML}
+
+    cat $OUTPUT | grcat $SCRIPTDIR/so-highlight.conf > ${OUTPUT_COLOR_ANSI}
+
+    cat $OUTPUT_COLOR_ANSI | perl -p -e 's/^\x1b\[[0-9;]*m//; s/\x1b\[0m(.*?)\x1b\[0m/<b>$1<\/b>/g; s/\x1b\[[0-9;]*m//g;' >> ${OUTPUT_COLOR_HTML}
+
+    echo "</pre>" >> ${OUTPUT_COLOR_HTML}
+}
+
+
 export TESTDIR="$(realpath $(dirname "$0"))"
 export SOURCEDIR=$TESTDIR/..
+export SCRIPTDIR=$SOURCEDIR/../.test
 
 export FEEDBACKFILE_PATH=/tmp/feedback.md
 export FEEDBACK=
