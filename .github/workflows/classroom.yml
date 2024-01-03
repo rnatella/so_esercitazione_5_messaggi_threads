@@ -97,7 +97,7 @@ jobs:
   build-badges:
     name: Build Points Badge
     runs-on: ubuntu-22.04
-    if: always()
+    if: ${{ always() && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.author.name, '[bot]') }}
     needs: build
     steps:
       # need to checkout whole repo
