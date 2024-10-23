@@ -2,7 +2,7 @@
   "tests": [
     {
       "name": "Un primo esempio di server multithread",
-      "setup": "pip3 -qqq install semgrep && sudo apt -qq install expect 2>/dev/null >/dev/null",
+      "setup": "pip3 -qqq install semgrep==1.76.0 && sudo apt -qq install expect 2>/dev/null >/dev/null",
       "run": "/bin/bash ./un_primo_esempio_di_server_multithread/.test/server-multithread.sh",
       "input": "",
       "output": "pass",
